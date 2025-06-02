@@ -12,9 +12,15 @@ from springlattice.crack import update_bond_state, compute_nodal_stress_tensor
 mplstyle_file = r'C:\Users\vinee\OneDrive\Documents\vscode\stressed network model\article_preprint.mplstyle'
 plt.style.use(f'{mplstyle_file}')
 
-folder = r'C:\MyData\Stressed network work\Data\hole5_d5t125_et03_dec_m5_R108_e02_254X220'
+folder = r'C:\MyData\Stressed network work\Data\Unstressed\hole5_d5t125_et02_zero_strain_220X254_254X220'
 # mesh = sl.LoadMesh(folder)
 # mesh.folder = folder
+
+"""
+This script visualizes the stress field for a given time step in a spring lattice model.
+It computes the stress tensor at each node, extracts the desired component (xx, xy, yy, max, rr, rt, tt, rt_ratio),
+and plots the field using a triangulation of the node positions. The script also handles broken bonds and generates crack segments if necessary.
+"""
 
 """Function to visualize the stress field"""
 def triplot_stress_field(dir_path, comp, time, **kwargs):
@@ -140,10 +146,10 @@ def triplot_stress_field(dir_path, comp, time, **kwargs):
                             mask = mask_nodes, crackpattern = crack_segs, cbarlim = cbarlim, cl_circle = cl_circle, cs_circle = cs_circle) 
 
         
-        trifield((xo-xc)/L,(yo-yc)/L, field, xlim = (0.5,1), 
-                            ylim = (0.5, 1), save = save, path = dir_path,
-                            filename = f'customplot_{time_step}_inset', title = f'$2tc_r/L = {np.round(t/L,2)}$',
-                            mask = mask_nodes, crackpattern = crack_segs, cbarlim = cbarlim, cl_circle = cl_circle, cs_circle = cs_circle) 
+        # trifield((xo-xc)/L,(yo-yc)/L, field, xlim = (0.5,1), 
+        #                     ylim = (0.5, 1), save = save, path = dir_path,
+        #                     filename = f'customplot_{time_step}_inset', title = f'$2tc_r/L = {np.round(t/L,2)}$',
+        #                     mask = mask_nodes, crackpattern = crack_segs, cbarlim = cbarlim, cl_circle = cl_circle, cs_circle = cs_circle) 
     
     disp_file.close()
 
@@ -216,4 +222,4 @@ def trifield(x:np.ndarray,y:np.ndarray,f:np.ndarray, **kwargs):
     else:
         plt.show()  
 
-triplot_stress_field(dir_path=folder, comp='max', time = 195, cbarlim = (0, 0.1), save=True)
+triplot_stress_field(dir_path=folder, comp='max', time = 10, save=False)
