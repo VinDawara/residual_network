@@ -71,11 +71,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-plt.style.use('./article_preprint.mplstyle')
-folder = r'C:\MyData\Stressed network work\Data\hole5_d5t125_et03_dec_m5_R108_e02_254X220'
+"""
+This script visualizes the stress field for  a given time interval in a spring lattice model.
+"""
+# specify the mplstyle file for the plot
+mplstyle_file = r'C:\Users\vinee\OneDrive\Documents\vscode\stressed network model\article_preprint.mplstyle'
+plt.style.use(f'{mplstyle_file}')
+
+folder = r'C:\MyData\Stressed network work\Data\Unstressed\hole5_d5t125_et02_zero_strain_220X254_254X220'
 # mesh = sl.LoadMesh(folder)
 # mesh.folder = folder
 
 
 # so.triplot_strain_field(dir_path=folder, comp='max', time = np.arange(0,200,10), cbarlim = (-0.03, 0.05))
-so.triplot_stress_field(dir_path=folder, comp='max', time = np.arange(0,50,10))
+so.triplot_stress_field(dir_path=folder, comp='max', time = np.arange(50,100,10))

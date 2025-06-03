@@ -12,7 +12,7 @@ from springlattice.crack import update_bond_state, compute_nodal_stress_tensor
 mplstyle_file = r'C:\Users\vinee\OneDrive\Documents\vscode\stressed network model\article_preprint.mplstyle'
 plt.style.use(f'{mplstyle_file}')
 
-folder = r'C:\MyData\Stressed network work\Data\Unstressed\hole5_d5t125_et02_zero_strain_220X254_254X220'
+folder = r'C:\MyData\Stressed network work\Data\hole5_d5t125_et03_dec_m5_R108_e02_254X220'
 # mesh = sl.LoadMesh(folder)
 # mesh.folder = folder
 
@@ -142,7 +142,7 @@ def triplot_stress_field(dir_path, comp, time, **kwargs):
     
         trifield((xo-xc)/L,(yo-yc)/L, field, xlim = (-1,1), 
                             ylim = (-1, 1), save = save, path = dir_path,
-                            filename = f'customplot_{time_step}', title = f'$2tc_r/L = {np.round(t/L,2)}$',
+                            filename = f'customplot_trans_{time_step}', title = f'$2tc_r/L = {np.round(t/L,2)}$',
                             mask = mask_nodes, crackpattern = crack_segs, cbarlim = cbarlim, cl_circle = cl_circle, cs_circle = cs_circle) 
 
         
@@ -190,7 +190,7 @@ def trifield(x:np.ndarray,y:np.ndarray,f:np.ndarray, **kwargs):
     # ax.set_title(title)
     ax.set_aspect('equal')
     # ax_divider= make_axes_locatable(ax)
-    # add an axes to the right of the main axes
+    # # add an axes to the right of the main axes
     # cax = ax_divider.append_axes("right", size="7%", pad="2%")
     if not cbarlim:
         ul = np.nanmax(f)
@@ -217,9 +217,9 @@ def trifield(x:np.ndarray,y:np.ndarray,f:np.ndarray, **kwargs):
         ax.plot(cs_circle[:,0], cs_circle[:,1], color = 'brown', linestyle = '--', linewidth = 2)
 
     if save:
-        fig.savefig(path + f'/{filename}.png', bbox_inches = 'tight' , dpi = 300)
+        fig.savefig(path + f'/{filename}.png', bbox_inches = 'tight' , dpi = 300, transparent=True)
         plt.close()
     else:
         plt.show()  
 
-triplot_stress_field(dir_path=folder, comp='max', time = 10, save=False)
+triplot_stress_field(dir_path=folder, comp='max', time = 100, save=True, cbarlim = (0, 0.1))
