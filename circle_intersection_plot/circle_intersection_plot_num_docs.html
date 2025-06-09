@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Script Documentation: Fragment Intersection Plot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 5px solid #ccc;
+            padding: 12px;
+            overflow-x: auto;
+        }
+        ul {
+            list-style: square;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Script Documentation: Fragment Intersection Plot</h1>
+
+    <section>
+        <h2>Overview</h2>
+        <p>This script visualizes how the number of intersecting circular fragments varies with fragment size under different simulation and experimental conditions.</p>
+        <p><strong>Author:</strong> Vineet Dawara<br>
+        <strong>Last Updated:</strong> 2025-06-09</p>
+    </section>
+
+    <section>
+        <h2>Requirements</h2>
+        <ul>
+            <li>Python 3.x</li>
+            <li>matplotlib</li>
+            <li>numpy</li>
+            <li>pickle</li>
+            <li>h5py</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Functionality</h2>
+        <p>The script loads fragment intersection data from simulation and experimental files and plots normalized fragment radius vs. number of intersecting bonds. It allows comparing how strain (<code>ε_b</code>), shape size, and bond connectivity (<code>m</code>) influence fragmentation behavior.</p>
+    </section>
+
+    <section>
+        <h2>Code Explanation</h2>
+
+        <h3>1. Import Dependencies</h3>
+        <pre><code>import pickle
+import matplotlib.pyplot as plt
+import numpy as np
+import h5py</code></pre>
+        <p>Standard scientific libraries are imported for data loading (<code>pickle</code>, <code>h5py</code>), array manipulation (<code>numpy</code>), and visualization (<code>matplotlib</code>).</p>
+
+        <h3>2. Load Custom Plot Style</h3>
+        <pre><code>plt.style.use('article_preprint.mplstyle')</code></pre>
+        <p>This applies a consistent styling for all plots, improving publication quality.</p>
+
+        <h3>3. Load Simulation Data</h3>
+        <p>Using <code>pickle.load()</code>, precomputed data for various simulation cases are loaded:</p>
+        <ul>
+            <li><strong>Variation with strain (ε_b)</strong> — Three datasets for different strain values</li>
+            <li><strong>Variation with bond number (m)</strong> — Data with different connectivity levels</li>
+            <li><strong>Shape size effects</strong> — Data from small/big circles and ellipses</li>
+        </ul>
+        <pre><code>with open(data_dir + '/circle_fragments_inter', 'rb') as f:
+    radius, nbonds = pickle.load(f)</code></pre>
+
+        <h3>4. Load Experimental Data</h3>
+        <pre><code>def load_data(path, filename):
+    with h5py.File(path + f'/{filename}.mat', 'r') as f:
+        radius = np.squeeze(f['radius'][:])
+        count = np.squeeze(f['count'][:])
+    return radius, count</code></pre>
+        <p>This helper function extracts <code>radius</code> and <code>bond count</code> from experimental HDF5 (MATLAB) files.</p>
+
+        <h3>5. Data Processing</h3>
+        <p>Experimental datasets are averaged and normalized to allow comparison across different velocities:</p>
+        <pre><code>radius123 = np.mean([radius_1, radius_2, radius_3], axis=0)
+radius123 /= radius123.max()</code></pre>
+        <p>Standard deviations are also calculated to represent uncertainty.</p>
+
+        <h3>6. Plotting</h3>
+        <pre><code>fig, ax = plt.subplots()
+ax.plot(radius_e3 / L, nbonds_e3, label=r'$\epsilon_b = 0.030$')</code></pre>
+        <p>Plots are generated for each scenario and annotated using LaTeX labels. Shapes and material parameters are color-coded or labeled.</p>
+
+        <h3>7. Plot Customization</h3>
+        <p>Although not fully shown, the plot likely includes:</p>
+        <ul>
+            <li>Axis labels</li>
+            <li>Legends</li>
+            <li>Grid lines or log scaling (if defined in the mplstyle file)</li>
+        </ul>
+
+        <h3>8. Output</h3>
+        <p>The script will produce a comparative plot of fragment intersection counts as a function of normalized radius under different conditions.</p>
+
+    </section>
+
+    <section>
+        <h2>Conclusion</h2>
+        <p>This script is a modular and extensible framework for comparing simulation and experimental results on fragment interactions. The use of separate directories and consistent variable naming helps keep it organized.</p>
+    </section>
+
+</body>
+</html>

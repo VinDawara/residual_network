@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation: Circle Fragmentation Analysis Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            background: #eee;
+            padding: 2px 4px;
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Circle Fragmentation Analysis Script Documentation</h1>
+
+<p>This Python script reads circle intersection count data from multiple experiments stored in MATLAB HDF5 (<code>.mat</code>) files, processes them, and plots the average number of intersecting bonds as a function of normalized radius. The goal is to compare different experimental conditions and benchmark them against existing literature.</p>
+
+<hr>
+
+<h2>1. Imports and Plot Styling</h2>
+<p>The script imports necessary libraries and applies a custom matplotlib style for consistent plotting.</p>
+<pre><code>import h5py
+import numpy as np
+import matplotlib.pyplot as plt
+</code></pre>
+
+<h3>Apply custom plot style:</h3>
+<pre><code>mplstyle_file = r'C:\...\article_preprint.mplstyle'
+plt.style.use(f'{mplstyle_file}')
+</code></pre>
+
+<hr>
+
+<h2>2. Reading Data from HDF5 Files</h2>
+<p>The script reads <code>radius</code> and <code>count</code> datasets from multiple experimental folders. Each set is loaded and squeezed to remove redundant dimensions.</p>
+
+<ul>
+    <li><strong>Tests 1, 2, 3</strong>: Higher impact velocity (~35 m/s)</li>
+    <li><strong>Tests 6, 7, 8</strong>: Lower impact velocity (~20 m/s)</li>
+    <li><strong>glass_1, glass_2, Burggraaf</strong>: Literature data for comparison</li>
+</ul>
+
+<p>Each dataset is accessed using:</p>
+<pre><code>with h5py.File(file_path, 'r') as f:
+    radius = np.squeeze(f['radius'][:])
+    count = np.squeeze(f['count'][:])
+</code></pre>
+
+<hr>
+
+<h2>3. Data Aggregation and Normalization</h2>
+
+<h3>Averaging data:</h3>
+<p>Data from tests 1, 2, and 3 are averaged to obtain the high-velocity trend; similarly, tests 6, 7, and 8 are averaged for the low-velocity case.</p>
+
+<pre><code>radius123 = np.mean([radius_1, radius_2, radius_3], axis=0)
+radius678 = np.mean([radius_6, radius_7, radius_8], axis=0)
+</code></pre>
+
+<h3>Normalization:</h3>
+<p>All radii are normalized by their maximum value:</p>
+<pre><code>radius123 = radius123 / radius123.max()
+radius678 = radius678 / radius678.max()
+</code></pre>
+
+<h3>Standard deviation:</h3>
+<p>Standard deviation is computed for shading error bands:</p>
+<pre><code>nbonds123_std = np.std([nbonds_1, nbonds_2, nbonds_3], axis=0)
+</code></pre>
+
+<hr>
+
+<h2>4. Plotting the Results</h2>
+<p>A matplotlib figure is generated with shaded error bands and benchmark datasets overlaid for comparison.</p>
+
+<h3>Special Annotations:</h3>
+<ul>
+    <li><strong>Projectile Region</strong> (light gray): Represents the size of the projectile</li>
+    <li><strong>Un-accessible Region</strong> (light yellow): Region where data is less reliable</li>
+</ul>
+
+<pre><code>ax.axvspan(0, 1.2/30, color='lightgray', alpha=0.3, label='projectile region')
+ax.axvspan(1.2/30, 4/30, color='lightyellow', alpha=1, label='minimum un-accessible region')
+</code></pre>
+
+<h3>Plot curves:</h3>
+<pre><code>ax.plot(radius678, nbonds678, label='v = 20 m/s')
+ax.plot(radius123, nbonds123, label='v = 35 m/s')
+ax.plot(radius_glass1, nbonds_glass1, label='glass 1', linestyle='--')
+</code></pre>
+
+<h3>Final plot setup:</h3>
+<pre><code>ax.set_xlabel(r'$2r/L\rightarrow$')
+ax.set_ylabel(r'$N_c\rightarrow$')
+ax.set_xlim(left=0)
+ax.set_ylim(bottom=0)
+</code></pre>
+
+<hr>
+
+<h2>5. Saving the Plot</h2>
+<p>The final figure is saved as a high-resolution PNG image:</p>
+<pre><code>fig.savefig(r'C:\...\collated_circle_frag_inter.png', bbox_inches='tight', dpi=300)
+</code></pre>
+
+<hr>
+
+<h2>6. Summary</h2>
+<p>This script provides a reproducible pipeline for comparing experimental data from fragmentation tests with existing datasets. It processes HDF5 files, computes statistical summaries, and plots publication-ready visuals with labeled regions and references.</p>
+
+</body>
+</html>
