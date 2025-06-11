@@ -137,40 +137,51 @@ radius678 /= radius678.max()
 nbonds678 = np.mean([nbonds_6, nbonds_7, nbonds_8], axis=0)
 nbonds678_std = np.std([nbonds_6, nbonds_7, nbonds_8], axis=0)
 
-# Normalize literature data
-radius_glass1 /= radius_glass1.max()
-radius_glass2 /= radius_glass2.max()
-radius_burg /= radius_burg.max()
+# Normalize literature data  
+# radius_glass1 /= radius_glass1.max()
+# radius_glass2 /= radius_glass2.max()
+# radius_burg /= radius_burg.max()
+
+radius_glass1 /= 0.58
+radius_glass2 /= 0.58
+radius_burg /= 1.5875
 
 # -------------------------------------------------------
 # Plotting
 # -------------------------------------------------------
-L = 110  # Reference length
+# L = 110  # Reference length (half size of the network)
+L = 5   # Normalization length for radius (initial hole radius)
 
 fig, ax = plt.subplots()
-
 # Simulation curves
-ax.plot(radius_e3 / L, nbonds_e3, label=r'$\epsilon_{b} = 0.030$', alpha=0.7)
-ax.plot(radius_e35 / L, nbonds_e35, label=r'$\epsilon_{b} = 0.035$', alpha=0.7)
-ax.plot(radius_e4 / L, nbonds_e4, label=r'$\epsilon_{b} = 0.040$', alpha=0.7)
-ax.plot(radius_m2 / L, nbonds_m2, label=r'$m=2$', alpha=0.7)
-ax.plot(radius_m3 / L, nbonds_m3, label=r'$m=3$', alpha=0.7)
-ax.plot(radius_m5 / L, nbonds_m5, label=r'$m=5$', alpha=0.7)
+ax.plot(radius_e3 / L, nbonds_e3, label=r'$\epsilon_{b} = 0.030$', alpha=0.5, linestyle = 'None', marker='o', markersize=8,
+    markeredgecolor='black')
+ax.plot(radius_e35 / L, nbonds_e35, label=r'$\epsilon_{b} = 0.035$', alpha=0.5, linestyle = 'None', marker='o', markersize=8,
+    markeredgecolor='black')
+ax.plot(radius_e4 / L, nbonds_e4, label=r'$\epsilon_{b} = 0.040$', alpha=0.5, linestyle = 'None', marker='o', markersize=8,
+    markeredgecolor='black')
+# ax.plot(radius_m2 / L, nbonds_m2, label=r'$m=2$', alpha=0.5, linestyle='None', marker='o', markersize=8, markeredgecolor='black')   
+# ax.plot(radius_m3 / L, nbonds_m3, label=r'$m=3$', alpha=0.5, linestyle='None', marker='o', markersize=8, markeredgecolor='black')
+# ax.plot(radius_m5 / L, nbonds_m5, label=r'$m=5$', alpha=0.5, linestyle='None', marker='o', markersize=8, markeredgecolor='black')
 
 # Shape-size comparison
-ax.plot(radius_sc / L, nbonds_sc, label=r'small circle $2D_c/L=0.09$', color='tab:blue', alpha=0.7)
-ax.plot(radius_bc / L, nbonds_bc, label=r'big circle $2D_c/L=0.18$', color='tab:orange', alpha=0.7)
-ax.plot(radius_se / L, nbonds_se, label=r'small ellipse $2D_x/L=0.09, 2D_y/L=0.04$', color='tab:green', alpha=0.7)
-ax.plot(radius_be / L, nbonds_be, label=r'big ellipse $2D_x/L=0.13, 2D_y/L=0.04$', color='tab:cyan', alpha=0.7)
+# ax.plot(radius_sc / L, nbonds_sc, label=r'small circle $2D_c/L=0.09$', color='tab:blue', alpha=0.5, linestyle='None', marker='o', markersize=8,
+#      markeredgecolor='black')
+# ax.plot(radius_bc / L, nbonds_bc, label=r'big circle $2D_c/L=0.18$', color='tab:orange', alpha=0.5, linestyle='None', marker='o', markersize=8,
+#      markeredgecolor='black')
+# ax.plot(radius_se / L, nbonds_se, label=r'small ellipse $2D_x/L=0.09, 2D_y/L=0.04$', color='tab:green', alpha=0.5, linestyle = 'None', marker='o', markersize=8,
+#      markeredgecolor='black')
+# ax.plot(radius_be / L, nbonds_be, label=r'big ellipse $2D_x/L=0.13, 2D_y/L=0.04$', color='tab:cyan', alpha=0.5, linestyle = 'None', marker='o', markersize=8,
+#      markeredgecolor='black')
 
 # Optional highlighting
 # ax.axvspan(0, 1.2/30, color='lightgray', alpha=0.3, label='projectile region')
 # ax.axvspan(1.2/30, 4/30, color='lightyellow', alpha=1, label='minimum un-accessible region')
 
 # Plot literature data with contrasting colors
-ax.plot(radius_glass1, nbonds_glass1, label='glass 1', color='black', linestyle='--')
-ax.plot(radius_glass2, nbonds_glass2, label='glass 2', color='magenta', linestyle='--')
-ax.plot(radius_burg, nbonds_burg, label='Burggraaf', color='gold', linestyle='--')
+ax.plot(radius_glass1, nbonds_glass1, label='glass 1', color='lightgray', linestyle='None', marker='s', markersize=8, markeredgecolor='black')
+ax.plot(radius_glass2, nbonds_glass2, label='glass 2', color='lightgray', linestyle='None', marker='^', markersize=8, markeredgecolor='black')
+ax.plot(radius_burg, nbonds_burg, label='Burggraaf', color='lightgray', linestyle='None', marker='d', markersize=8, markeredgecolor='black')
 
 
 # Final formatting (optional, depending on your style file)
@@ -181,6 +192,6 @@ ax.set_xlim(left=0)
 ax.set_ylim(bottom=0)
 
 # Save and show plot
-fig.savefig(r'C:\Users\vinee\OneDrive\Documents\MATLAB\collated_circle_frag_inter_num_exp.png', bbox_inches='tight', dpi=300)
+fig.savefig(r'C:\Users\vinee\OneDrive\Documents\MATLAB\collated_circle_frag_inter_num_exp_scatter.png', bbox_inches='tight', dpi=300)
 plt.show()
 

@@ -60,16 +60,20 @@ ax.axvspan(0, 1.2/30, color='lightgray', alpha=0.3, label='projectile region')
 ax.axvspan(1.2/30, 4/30, color='lightyellow', alpha=1, label='minimum un-accessible region')
 
 # Plot data with shaded standard deviation areas
-ax.plot(radius678, nbonds678, label=r'$v = 20$ m/s', color='tab:blue')
-ax.fill_between(radius678, nbonds678 - nbonds678_std, nbonds678 + nbonds678_std, alpha=0.2, color='tab:blue')
+# ax.plot(radius678, nbonds678, label=r'$v = 20$ m/s', color='tab:blue', linestyle = 'None', marker='o', markersize=5, alpha=0.7)
+ax.errorbar(radius678, nbonds678, yerr=nbonds678_std, fmt='o', color='tab:blue', alpha=0.7, capsize=5, label=r'$v = 20$ m/s', 
+            linestyle = 'None', marker='o', markersize=8, markeredgecolor = 'black')
+# ax.fill_between(radius678, nbonds678 - nbonds678_std, nbonds678 + nbonds678_std, alpha=0.2, color='tab:blue')
 
-ax.plot(radius123, nbonds123, label=r'$v = 35$ m/s', color='tab:orange')
-ax.fill_between(radius123, nbonds123 - nbonds123_std, nbonds123 + nbonds123_std, alpha=0.2, color='tab:orange')
+# ax.plot(radius123, nbonds123, label=r'$v = 35$ m/s', color='tab:orange', linestyle = 'None', marker='o', markersize=5, alpha=0.7)
+ax.errorbar(radius123, nbonds123, yerr=nbonds123_std, fmt='o', color='tab:orange', alpha=0.7, capsize=5, label=r'$v = 35$ m/s',
+            linestyle = 'None', marker='o', markersize=8, markeredgecolor = 'black')
+# ax.fill_between(radius123, nbonds123 - nbonds123_std, nbonds123 + nbonds123_std, alpha=0.2, color='tab:orange')
 
 # Plot literature data
-ax.plot(radius_glass1, nbonds_glass1, label='glass 1', color='tab:green', linestyle='--')
-ax.plot(radius_glass2, nbonds_glass2, label='glass 2', color='tab:purple', linestyle='--')
-ax.plot(radius_burg, nbonds_burg, label='Burggraaf', color='tab:red', linestyle='--')
+ax.plot(radius_glass1, nbonds_glass1, label='glass 1', color='tab:green', linestyle='None', marker = 'o', markersize = 8, markeredgecolor = 'black')
+ax.plot(radius_glass2, nbonds_glass2, label='glass 2', color='tab:purple', linestyle='None', marker = 'o', markersize = 8, markeredgecolor = 'black')
+ax.plot(radius_burg, nbonds_burg, label='Burggraaf', color='tab:red', linestyle='None', marker = 'o', markersize = 8, markeredgecolor = 'black')
 
 # Axis labels and limits
 ax.set_xlabel(r'$2r/L\rightarrow$')
@@ -78,5 +82,5 @@ ax.set_xlim(left=0)
 ax.set_ylim(bottom=0)
 
 # Save and show plot
-fig.savefig(r'C:\Users\vinee\OneDrive\Documents\MATLAB\collated_circle_frag_inter.png', bbox_inches='tight', dpi=300)
+fig.savefig(r'C:\Users\vinee\OneDrive\Documents\MATLAB\collated_circle_frag_inter_scatter.png', bbox_inches='tight', dpi=300)
 plt.show()
