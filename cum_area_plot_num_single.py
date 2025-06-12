@@ -10,7 +10,7 @@ plt.style.use(f'{mplstyle_file}')
 filename = 'area_size'
 
 # read data for profile m = 5
-data_dir_path = r'C:\MyData\Stressed network work\Data\hole5_d5t125_et03_dec_m5_R108_e02_254X220\area_data'
+data_dir_path = r'C:\MyData\Stressed network work\Data\m5et\hole5_d5t125_et04_dec_m5_R108_e02_254X220\area_data'
 with open(data_dir_path + f'/{filename}.txt', 'r') as f:
     size = f.readlines()
 
@@ -58,5 +58,5 @@ fig.savefig(data_dir_path+ '/exp_cum_area.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # save data
-# with open(data_dir_path + f'/exp_cum_area', 'wb') as f:
-#     pickle.dump([cum_area, cum_count, p, p_conv], f)
+with open(data_dir_path + f'/exp_cum_area', 'wb') as f:
+    pickle.dump([cum_area, cum_count, p, p_conv], f)
